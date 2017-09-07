@@ -183,13 +183,14 @@ class RustAutocomplete(sublime_plugin.EventListener):
             ralign = 0;
             for result in raw_results:
                 result.middle = "{0} ({1})".format(result.type, os.path.basename(result.path))
-                lalign = max(lalign,len(result.completion)+len(result.middle))
-                ralign = max(ralign, len(result.context))
+                lalign = max(lalign, len(result.completion))
+                ralign = max(ralign, len(result.middle))
 
             for result in raw_results:
                 context = result.context
-                result = "{0} {1:>{3}} : {2:{4}}".format(result.completion, result.middle, result.context, lalign - len(result.completion), ralign), result.snippet
+                result = "{0:<{3}}{1:<{2}}".format(result.completion, result.middle, lalign, ralign), result.snippet
                 results.append(result)
+
             if len(results) > 0:
                 # return list(set(results))
                 return (list(set(results)),
